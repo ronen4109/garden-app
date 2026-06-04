@@ -63,10 +63,16 @@ export default async function HomePage() {
         </section>
       )}
 
-      <section className="pt-4">
+      <section className="pt-4 space-y-2">
+        <Link
+          href="/log"
+          className="block bg-emerald-600 hover:bg-emerald-700 text-white text-center rounded-lg py-3 font-medium text-lg"
+        >
+          + תיעוד פעולה
+        </Link>
         <Link
           href="/trees"
-          className="block bg-emerald-600 hover:bg-emerald-700 text-white text-center rounded-lg py-3 font-medium"
+          className="block bg-white border border-stone-200 hover:border-emerald-400 text-center rounded-lg py-3 font-medium"
         >
           כל העצים שלי 🌳
         </Link>

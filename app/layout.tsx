@@ -30,9 +30,15 @@ export default function RootLayout({
             <Link href="/" className="text-xl font-bold text-emerald-700">
               🌳 הגינה שלנו
             </Link>
-            <nav className="flex gap-4 text-sm">
+            <nav className="flex gap-4 text-sm items-center">
               <Link href="/trees" className="hover:text-emerald-700">עצים</Link>
               <Link href="/calendar" className="hover:text-emerald-700">לוח שנה</Link>
+              <Link
+                href="/log"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-md px-3 py-1.5 font-medium"
+              >
+                + תיעוד
+              </Link>
             </nav>
           </div>
         </header>
