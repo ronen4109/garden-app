@@ -19,10 +19,15 @@ export default async function LogPage() {
   }
 
   return (
-    <div className="px-4 pt-8 space-y-6">
+    <div className="px-4 md:px-8 pt-8 md:pt-14 max-w-2xl mx-auto space-y-6">
       <div className="reveal">
-        <h1 className="font-display text-4xl font-black">תיעוד פעולה</h1>
-        <p className="text-muted-foreground text-sm mt-1.5">
+        <p className="text-[11px] tracking-[0.22em] text-muted-foreground mb-1.5">
+          יומן הגינה
+        </p>
+        <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
+          תיעוד פעולה
+        </h1>
+        <p className="text-muted-foreground text-sm mt-2.5">
           מה עשיתם בגינה? בחרו פעולה ועצים.
         </p>
       </div>
@@ -44,7 +49,7 @@ export default async function LogPage() {
                   defaultChecked={i === 0}
                   className="peer sr-only"
                 />
-                <span className="flex flex-col items-center gap-1.5 bg-card border border-border rounded-2xl py-3.5 text-sm font-medium transition-colors peer-checked:bg-primary peer-checked:text-primary-foreground peer-checked:border-primary peer-checked:shadow-soft">
+                <span className="flex flex-col items-center gap-1.5 bg-card border border-border rounded-xl py-3.5 text-sm transition-colors peer-checked:bg-foreground peer-checked:text-background peer-checked:border-foreground">
                   <ActionIcon action={a} className="size-5" />
                   {a}
                 </span>
@@ -57,7 +62,7 @@ export default async function LogPage() {
                 value="אחר"
                 className="peer sr-only"
               />
-              <span className="flex flex-col items-center justify-center gap-1.5 bg-card border border-dashed border-border rounded-2xl py-3.5 text-sm font-medium transition-colors peer-checked:bg-primary peer-checked:text-primary-foreground peer-checked:border-primary">
+              <span className="flex flex-col items-center justify-center gap-1.5 bg-card border border-dashed border-border rounded-xl py-3.5 text-sm transition-colors peer-checked:bg-foreground peer-checked:text-background peer-checked:border-foreground">
                 ✦ אחר
               </span>
             </label>
@@ -66,7 +71,7 @@ export default async function LogPage() {
             type="text"
             name="customAction"
             placeholder="אם בחרתם ״אחר״ — תארו את הפעולה"
-            className="mt-2 w-full bg-card border border-input rounded-2xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/40"
+            className="mt-2 w-full bg-card border border-input rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring/40"
           />
         </fieldset>
 
@@ -80,7 +85,7 @@ export default async function LogPage() {
             name="date"
             defaultValue={today}
             required
-            className="w-full bg-card border border-input rounded-2xl p-3.5 text-base focus:outline-none focus:ring-2 focus:ring-ring/40"
+            className="w-full bg-card border border-input rounded-xl p-3.5 text-base focus:outline-none focus:ring-2 focus:ring-ring/40"
           />
         </div>
 
@@ -98,7 +103,7 @@ export default async function LogPage() {
                   defaultChecked
                   className="peer sr-only"
                 />
-                <span className="flex items-center gap-2.5 bg-card border border-border rounded-2xl p-2.5 transition-colors peer-checked:border-primary peer-checked:bg-secondary">
+                <span className="flex items-center gap-2.5 bg-card border border-border rounded-xl p-2.5 transition-colors peer-checked:border-foreground/70 peer-checked:bg-secondary/60">
                   {tree.photoUrl && (
                     <Image
                       src={tree.photoUrl}
@@ -127,13 +132,13 @@ export default async function LogPage() {
             name="note"
             rows={3}
             placeholder="לדוגמה: 80 גרם אוסמוקוט סביב כל עץ והשקיה עמוקה"
-            className="w-full bg-card border border-input rounded-2xl p-3.5 text-base focus:outline-none focus:ring-2 focus:ring-ring/40"
+            className="w-full bg-card border border-input rounded-xl p-3.5 text-base focus:outline-none focus:ring-2 focus:ring-ring/40"
           />
         </div>
 
         <button
           type="submit"
-          className="w-full bg-primary text-primary-foreground rounded-2xl py-4 text-lg font-medium shadow-card transition-transform active:scale-[0.99]"
+          className="w-full bg-foreground text-background rounded-full py-3.5 text-base transition-all duration-200 hover:opacity-90 active:scale-[0.99]"
         >
           ✓ שמירה
         </button>

@@ -7,20 +7,22 @@ export default async function TreesPage() {
   const trees = await getTreesWithStatus();
 
   return (
-    <div className="px-4 pt-8 space-y-6">
+    <div className="px-4 md:px-8 pt-8 md:pt-14 max-w-5xl mx-auto space-y-8">
       <div className="reveal">
-        <h1 className="font-display text-4xl font-black">העצים שלנו</h1>
-        <p className="text-muted-foreground text-sm mt-1.5">
+        <p className="text-[11px] tracking-[0.22em] text-muted-foreground mb-1.5">
           {trees.length} עצי פרי בחצר
         </p>
+        <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
+          העצים שלנו
+        </h1>
       </div>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
         {trees.map((tree, i) => (
           <div
             key={tree.id}
             className="reveal"
             style={
-              { "--reveal-delay": `${120 + i * 80}ms` } as React.CSSProperties
+              { "--reveal-delay": `${140 + i * 70}ms` } as React.CSSProperties
             }
           >
             <TreeCard tree={tree} />

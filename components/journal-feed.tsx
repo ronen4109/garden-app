@@ -13,20 +13,18 @@ export function JournalFeed({ entries }: { entries: JournalEntry[] }) {
   }
 
   return (
-    <div className="space-y-1">
+    <div className="divide-y divide-border/70 border-y border-border/70">
       {entries.map((entry) => (
-        <div key={`${entry.kind}-${entry.id}`} className="flex gap-3 py-2.5">
-          <span
-            className={`flex items-center justify-center size-9 rounded-full shrink-0 mt-0.5 ${
-              entry.kind === "log"
-                ? "bg-leaf-soft text-leaf"
-                : "bg-harvest-soft text-harvest"
-            }`}
-          >
+        <div key={`${entry.kind}-${entry.id}`} className="flex gap-3.5 py-4">
+          <span className="mt-0.5 shrink-0 text-muted-foreground">
             {entry.kind === "log" ? (
-              <ActionIcon action={entry.action} className="size-4" />
+              <ActionIcon
+                action={entry.action}
+                className="size-[18px]"
+                strokeWidth={1.6}
+              />
             ) : (
-              <NotebookPen className="size-4" />
+              <NotebookPen className="size-[18px]" strokeWidth={1.6} />
             )}
           </span>
           <div className="flex-1 min-w-0">
@@ -42,12 +40,12 @@ export function JournalFeed({ entries }: { entries: JournalEntry[] }) {
               </time>
             </div>
             {entry.kind === "log" && entry.note && (
-              <p className="text-sm text-muted-foreground mt-0.5">
+              <p className="text-sm text-muted-foreground mt-1 leading-relaxed">
                 {entry.note}
               </p>
             )}
             {entry.kind === "observation" && (
-              <p className="text-sm text-foreground/85 mt-0.5 leading-relaxed">
+              <p className="text-sm text-foreground/80 mt-1 leading-relaxed">
                 {entry.text}
               </p>
             )}

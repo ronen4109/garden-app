@@ -7,29 +7,31 @@ export function TreeCard({ tree }: { tree: TreeWithStatus }) {
   return (
     <Link
       href={`/trees/${tree.slug}`}
-      className="group relative block aspect-[4/5] rounded-3xl overflow-hidden shadow-card transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+      className="group relative block aspect-[4/5] rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-card"
     >
       {tree.photoUrl && (
         <Image
           src={tree.photoUrl}
           alt={tree.name}
           fill
-          sizes="(max-width: 672px) 50vw, 336px"
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.07]"
+          sizes="(max-width: 768px) 50vw, 350px"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
         />
       )}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent transition-opacity duration-300 group-hover:opacity-90" />
-      <div className="absolute bottom-0 inset-x-0 p-4 transition-transform duration-300 group-hover:-translate-y-1">
-        <h3 className="font-display text-2xl font-black text-white">
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+      <div className="absolute bottom-0 inset-x-0 p-5">
+        {tree.species && (
+          <p className="text-white/60 text-[10px] tracking-[0.22em] uppercase mb-1">
+            {tree.species}
+          </p>
+        )}
+        <h3 className="font-display text-2xl font-medium text-white tracking-tight">
           {tree.name}
         </h3>
-        {tree.species && (
-          <p className="text-white/65 text-xs italic mb-1.5">{tree.species}</p>
-        )}
         {tree.lastCaredAt && (
-          <span className="inline-block glass !bg-white/20 text-white rounded-full px-2.5 py-0.5 text-[11px]">
+          <p className="text-white/70 text-xs mt-1.5">
             טופל {relativeDaysHe(tree.lastCaredAt)}
-          </span>
+          </p>
         )}
       </div>
     </Link>

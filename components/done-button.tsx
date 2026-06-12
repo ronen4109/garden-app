@@ -10,12 +10,12 @@ export function DoneButton({ label = "סיימתי" }: { label?: string }) {
     <button
       type="submit"
       disabled={pending}
-      className="w-full flex items-center justify-center gap-1.5 bg-primary text-primary-foreground rounded-xl py-2.5 text-sm font-medium shadow-soft transition-all active:scale-[0.98] disabled:opacity-70"
+      className="inline-flex items-center justify-center gap-1.5 border border-foreground/75 text-foreground rounded-full px-5 py-1.5 text-sm transition-all duration-200 hover:bg-foreground hover:text-background active:scale-[0.97] disabled:opacity-60"
     >
       {pending ? (
-        <Loader2 className="size-4 animate-spin" />
+        <Loader2 className="size-3.5 animate-spin" />
       ) : (
-        <Check className="size-4" strokeWidth={2.5} />
+        <Check className="size-3.5" strokeWidth={2.5} />
       )}
       {label}
     </button>

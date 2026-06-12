@@ -21,7 +21,7 @@ export default async function ObservePage({
   }
 
   return (
-    <div className="px-4 pt-8 space-y-6">
+    <div className="px-4 md:px-8 pt-8 md:pt-14 max-w-2xl mx-auto space-y-6">
       <div className="reveal flex items-center gap-3">
         {tree.photoUrl && (
           <Image
@@ -56,11 +56,11 @@ export default async function ObservePage({
           rows={5}
           required
           placeholder="התצפית שלכם..."
-          className="w-full bg-card border border-input rounded-2xl p-4 text-base min-h-36 shadow-soft focus:outline-none focus:ring-2 focus:ring-ring/40 focus:border-ring"
+          className="w-full bg-card border border-input rounded-xl p-4 text-base min-h-36 shadow-soft focus:outline-none focus:ring-2 focus:ring-ring/40 focus:border-ring"
         />
         <button
           type="submit"
-          className="w-full bg-primary text-primary-foreground rounded-2xl py-4 text-lg font-medium shadow-card transition-transform active:scale-[0.99]"
+          className="w-full bg-foreground text-background rounded-full py-3.5 text-base transition-all duration-200 hover:opacity-90 active:scale-[0.99]"
         >
           שמירת תצפית
         </button>

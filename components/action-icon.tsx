@@ -37,10 +37,12 @@ export function actionIcon(action: string): LucideIcon {
 export function ActionIcon({
   action,
   className,
+  strokeWidth,
 }: {
   action: string;
   className?: string;
+  strokeWidth?: number;
 }) {
   const Icon = actionIcon(action);
-  return <Icon className={className} />;
+  return <Icon className={className} strokeWidth={strokeWidth} />;
 }

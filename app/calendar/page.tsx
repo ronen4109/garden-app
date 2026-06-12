@@ -27,10 +27,15 @@ export default async function CalendarPage({
   ]);
 
   return (
-    <div className="px-4 pt-8 space-y-6">
-      <h1 className="reveal font-display text-4xl font-black">
-        לוח השנה של הגינה
-      </h1>
+    <div className="px-4 md:px-8 pt-8 md:pt-14 max-w-3xl mx-auto space-y-8">
+      <div className="reveal">
+        <p className="text-[11px] tracking-[0.22em] text-muted-foreground mb-1.5">
+          {new Date().getFullYear()}
+        </p>
+        <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight">
+          לוח השנה של הגינה
+        </h1>
+      </div>
 
       <div
         className="reveal"

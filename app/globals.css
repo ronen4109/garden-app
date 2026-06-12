@@ -41,37 +41,37 @@
 }
 
 :root {
-  /* Warm paper surfaces */
-  --background: oklch(0.965 0.014 84);
-  --foreground: oklch(0.28 0.03 95);
-  --card: oklch(0.985 0.008 90);
+  /* Ivory paper, near-black ink */
+  --background: oklch(0.972 0.008 88);
+  --foreground: oklch(0.23 0.018 100);
+  --card: oklch(0.988 0.005 90);
   --card-foreground: var(--foreground);
   --popover: var(--card);
   --popover-foreground: var(--foreground);
 
-  /* Botanical green primary */
-  --primary: oklch(0.45 0.09 152);
-  --primary-foreground: oklch(0.98 0.01 95);
-  --secondary: oklch(0.93 0.025 130);
-  --secondary-foreground: oklch(0.38 0.07 150);
-  --muted: oklch(0.93 0.015 85);
-  --muted-foreground: oklch(0.52 0.03 95);
-  --accent: oklch(0.93 0.025 130);
-  --accent-foreground: oklch(0.38 0.07 150);
+  /* Deep forest green */
+  --primary: oklch(0.36 0.065 156);
+  --primary-foreground: oklch(0.97 0.008 95);
+  --secondary: oklch(0.945 0.018 130);
+  --secondary-foreground: oklch(0.34 0.055 152);
+  --muted: oklch(0.945 0.01 88);
+  --muted-foreground: oklch(0.5 0.022 98);
+  --accent: oklch(0.945 0.018 130);
+  --accent-foreground: oklch(0.34 0.055 152);
 
-  /* Warm accents */
-  --terracotta: oklch(0.6 0.12 42);
-  --terracotta-soft: oklch(0.93 0.035 55);
-  --harvest: oklch(0.68 0.13 75);
-  --harvest-soft: oklch(0.95 0.045 85);
-  --leaf: oklch(0.55 0.11 145);
-  --leaf-soft: oklch(0.94 0.04 140);
+  /* Muted warm accents */
+  --terracotta: oklch(0.55 0.1 42);
+  --terracotta-soft: oklch(0.95 0.022 55);
+  --harvest: oklch(0.62 0.1 78);
+  --harvest-soft: oklch(0.96 0.028 88);
+  --leaf: oklch(0.5 0.09 148);
+  --leaf-soft: oklch(0.955 0.025 140);
 
-  --destructive: oklch(0.55 0.18 28);
-  --border: oklch(0.89 0.018 85);
-  --input: oklch(0.89 0.018 85);
-  --ring: oklch(0.55 0.08 152);
-  --radius: 1rem;
+  --destructive: oklch(0.52 0.16 28);
+  --border: oklch(0.915 0.01 90);
+  --input: oklch(0.915 0.01 90);
+  --ring: oklch(0.5 0.06 152);
+  --radius: 0.75rem;
 }
 
 @layer base {
@@ -80,19 +80,21 @@
   }
   body {
     @apply bg-background text-foreground;
-    background-image:
-      radial-gradient(60rem 40rem at 110% -10%, oklch(0.93 0.04 130 / 0.55), transparent 60%),
-      radial-gradient(50rem 35rem at -20% 30%, oklch(0.95 0.035 85 / 0.5), transparent 55%);
+    background-image: radial-gradient(
+      70rem 45rem at 50% -20%,
+      oklch(0.95 0.018 130 / 0.45),
+      transparent 65%
+    );
     background-attachment: fixed;
   }
-  /* film grain over the whole page — gives the cream background a paper feel */
+  /* faint film grain — paper, not noise */
   body::after {
     content: "";
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 50;
-    opacity: 0.035;
+    opacity: 0.02;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
   }
   html {

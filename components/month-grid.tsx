@@ -13,41 +13,41 @@ export function MonthGrid({
   current: number;
 }) {
   return (
-    <div className="grid grid-cols-3 gap-2">
+    <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
       {summaries.map(({ month, total, done }) => {
         const isSelected = month === selected;
         const isCurrent = month === current;
         const allDone = total > 0 && done >= total;
 
         let cls =
-          "bg-card border border-border text-foreground hover:border-primary/40";
+          "bg-card border-border/80 hover:border-foreground/40";
         if (isSelected) {
-          cls = "bg-primary text-primary-foreground shadow-soft border border-primary";
+          cls = "bg-foreground text-background border-foreground";
         } else if (isCurrent) {
-          cls = "bg-secondary border border-primary/30 ring-2 ring-primary/20";
+          cls = "bg-card border-foreground/60";
         } else if (total === 0) {
-          cls = "bg-muted/50 border border-transparent text-muted-foreground/60";
+          cls = "border-transparent text-muted-foreground/50";
         }
 
         return (
           <Link
             key={month}
             href={`/calendar?month=${month}`}
-            className={`flex flex-col items-center rounded-2xl py-2.5 transition-colors ${cls}`}
+            className={`flex flex-col items-center border rounded-xl py-3 transition-colors duration-200 ${cls}`}
           >
-            <span className="text-sm font-medium">
+            <span className="font-display text-[15px] font-medium">
               {HEBREW_MONTHS[month - 1]}
             </span>
             <span
-              className={`text-[11px] flex items-center gap-0.5 ${
-                isSelected ? "text-primary-foreground/80" : "text-muted-foreground"
+              className={`text-[11px] mt-0.5 flex items-center gap-1 ${
+                isSelected ? "text-background/70" : "text-muted-foreground"
               }`}
             >
               {total === 0 ? (
                 "—"
               ) : allDone ? (
                 <>
-                  <Check className="size-3 text-leaf" strokeWidth={3} />
+                  <Check className="size-3" strokeWidth={2.5} />
                   הושלם
                 </>
               ) : (

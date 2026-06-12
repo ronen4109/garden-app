@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Plus, Sun, Leaf, Flower2, CloudRain, Sprout } from "lucide-react";
+import { Plus, Sprout } from "lucide-react";
 import { getPendingTasks, HEBREW_MONTHS } from "@/lib/tasks";
 import { getTreesWithStatus, getSeasonContext } from "@/lib/garden";
 import { TaskCard } from "@/components/task-card";
@@ -9,13 +9,6 @@ import { SectionHeading } from "@/components/section-heading";
 import { ActionIcon } from "@/components/action-icon";
 
 export const dynamic = "force-dynamic";
-
-const SEASON_ICONS = {
-  sun: Sun,
-  leaf: Leaf,
-  flower: Flower2,
-  rain: CloudRain,
-} as const;
 
 // A different hero photo per season keeps the home page alive year-round.
 const SEASON_HERO: Record<string, string> = {
@@ -42,7 +35,6 @@ export default async function HomePage() {
   const now = new Date();
   const month = now.getMonth() + 1;
   const season = getSeasonContext(month);
-  const SeasonIcon = SEASON_ICONS[season.icon];
   const heroPhoto = SEASON_HERO[season.label] ?? "/trees/pomegranate.jpeg";
 
   const current = tasks.filter((t) => t.status === "current");
@@ -53,54 +45,56 @@ export default async function HomePage() {
 
   return (
     <div>
-      {/* Cinematic seasonal hero */}
-      <section className="relative h-[48vh] min-h-[370px] overflow-hidden rounded-b-[2.5rem] shadow-card">
+      {/* Editorial hero */}
+      <section className="relative h-[46vh] min-h-[360px] md:h-[54vh] overflow-hidden md:mx-8 md:mt-6 md:rounded-2xl rounded-b-3xl shadow-card">
         <div className="absolute inset-0 hero-zoom">
           <Image
             src={heroPhoto}
             alt=""
             fill
             preload
-            sizes="(max-width: 768px) 100vw, 672px"
+            sizes="(max-width: 768px) 100vw, 1152px"
             className="object-cover"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-black/10" />
-        <div className="absolute bottom-0 inset-x-0 p-6 pb-16">
-          <p className="reveal text-white/80 text-sm font-medium flex items-center gap-1.5 mb-1">
-            <SeasonIcon className="size-4" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-black/5" />
+        <div className="absolute bottom-0 inset-x-0 p-6 pb-16 md:p-12 md:pb-12 max-w-2xl">
+          <p
+            className="reveal text-white/70 text-[11px] tracking-[0.28em] mb-3"
+            style={{ "--reveal-delay": "60ms" } as React.CSSProperties}
+          >
             {HEBREW_MONTHS[month - 1]} · {season.label}
           </p>
           <h1
-            className="reveal font-display text-5xl font-black text-white leading-tight"
-            style={{ "--reveal-delay": "120ms" } as React.CSSProperties}
+            className="reveal font-display text-5xl md:text-6xl font-medium text-white tracking-tight leading-none"
+            style={{ "--reveal-delay": "160ms" } as React.CSSProperties}
           >
             {greeting()}
           </h1>
           <p
-            className="reveal text-white/85 mt-2 text-[15px] leading-relaxed"
-            style={{ "--reveal-delay": "240ms" } as React.CSSProperties}
+            className="reveal text-white/80 mt-3.5 text-[15px] md:text-base leading-relaxed"
+            style={{ "--reveal-delay": "280ms" } as React.CSSProperties}
           >
             {season.line}
           </p>
         </div>
       </section>
 
-      <div className="px-4 space-y-9">
-        {/* Tree status strip — floats up over the hero edge */}
+      <div className="px-4 md:px-8">
+        {/* Tree status strip */}
         <section
-          className="reveal -mt-9 relative z-10"
-          style={{ "--reveal-delay": "350ms" } as React.CSSProperties}
+          className="reveal -mt-9 md:-mt-10 relative z-10 max-w-3xl mx-auto"
+          style={{ "--reveal-delay": "380ms" } as React.CSSProperties}
         >
-          <div className="glass rounded-3xl shadow-card border border-white/50 px-3 py-4">
-            <div className="flex gap-3 overflow-x-auto snap-x [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="glass rounded-2xl border border-border/60 shadow-soft px-4 py-4">
+            <div className="flex gap-3 md:gap-6 md:justify-center overflow-x-auto snap-x [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {treesWithStatus.map((tree, i) => (
                 <div
                   key={tree.id}
                   className="reveal"
                   style={
                     {
-                      "--reveal-delay": `${420 + i * 70}ms`,
+                      "--reveal-delay": `${440 + i * 60}ms`,
                     } as React.CSSProperties
                   }
                 >
@@ -111,100 +105,107 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {urgent.length === 0 ? (
-          <section
-            className="reveal bg-leaf-soft rounded-3xl p-8 text-center"
-            style={{ "--reveal-delay": "500ms" } as React.CSSProperties}
-          >
-            <span className="float-slow inline-flex items-center justify-center size-14 rounded-full bg-card shadow-soft mb-3">
-              <Sprout className="size-7 text-leaf" />
-            </span>
-            <p className="font-display text-lg font-bold text-secondary-foreground">
-              אין משימות דחופות החודש
-            </p>
-            <p className="text-sm text-muted-foreground mt-1">
-              הגינה מסודרת — אפשר פשוט ליהנות ממנה.
-            </p>
-          </section>
-        ) : (
-          <section>
-            <div
-              className="reveal"
-              style={{ "--reveal-delay": "500ms" } as React.CSSProperties}
-            >
-              <SectionHeading title={`לטיפול עכשיו (${urgent.length})`} />
-            </div>
-            <div className="space-y-3">
-              {urgent.map((task, i) => (
-                <div
-                  key={task.id}
-                  className="reveal"
-                  style={
-                    {
-                      "--reveal-delay": `${560 + i * 90}ms`,
-                    } as React.CSSProperties
-                  }
-                >
-                  <TaskCard task={task} />
-                </div>
-              ))}
-            </div>
-            {hiddenOverdue > 0 && (
-              <Link
-                href="/calendar"
-                className="block text-center text-sm text-muted-foreground mt-3 transition-colors hover:text-primary"
+        {/* Body — two columns on desktop */}
+        <div className="mt-12 md:grid md:grid-cols-[1fr_320px] md:gap-12 max-w-5xl mx-auto space-y-12 md:space-y-0">
+          <div>
+            {urgent.length === 0 ? (
+              <section
+                className="reveal border border-border/80 bg-card rounded-2xl p-10 text-center"
+                style={{ "--reveal-delay": "520ms" } as React.CSSProperties}
               >
-                + עוד {hiddenOverdue} משימות מחודשים קודמים בלוח השנה
-              </Link>
-            )}
-          </section>
-        )}
-
-        {upcoming.length > 0 && (
-          <section
-            className="reveal"
-            style={{ "--reveal-delay": "700ms" } as React.CSSProperties}
-          >
-            <SectionHeading title="בהמשך השנה" />
-            <div className="bg-card rounded-3xl shadow-soft divide-y divide-border/60 overflow-hidden">
-              {upcoming.map((task) => (
+                <Sprout className="size-7 text-leaf mx-auto mb-3" strokeWidth={1.5} />
+                <p className="font-display text-xl font-medium">
+                  אין משימות דחופות החודש
+                </p>
+                <p className="text-sm text-muted-foreground mt-1.5">
+                  הגינה מסודרת — אפשר פשוט ליהנות ממנה.
+                </p>
+              </section>
+            ) : (
+              <section>
                 <div
-                  key={task.id}
-                  className="flex items-center gap-3 p-3.5 transition-colors hover:bg-muted/40"
+                  className="reveal"
+                  style={{ "--reveal-delay": "520ms" } as React.CSSProperties}
                 >
-                  <span className="flex items-center justify-center size-9 rounded-xl bg-muted text-muted-foreground shrink-0">
-                    <ActionIcon action={task.action} className="size-4" />
-                  </span>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-sm">{task.action}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {task.treeName}
-                    </p>
-                  </div>
-                  <span className="text-xs text-muted-foreground whitespace-nowrap">
-                    {HEBREW_MONTHS[task.month - 1]}
-                  </span>
+                  <SectionHeading
+                    eyebrow={`${urgent.length} משימות`}
+                    title="לטיפול עכשיו"
+                  />
                 </div>
-              ))}
-            </div>
-          </section>
-        )}
+                <div className="space-y-3">
+                  {urgent.map((task, i) => (
+                    <div
+                      key={task.id}
+                      className="reveal"
+                      style={
+                        {
+                          "--reveal-delay": `${580 + i * 80}ms`,
+                        } as React.CSSProperties
+                      }
+                    >
+                      <TaskCard task={task} />
+                    </div>
+                  ))}
+                </div>
+                {hiddenOverdue > 0 && (
+                  <Link
+                    href="/calendar"
+                    className="block text-center text-sm text-muted-foreground mt-4 transition-colors hover:text-foreground"
+                  >
+                    + עוד {hiddenOverdue} משימות מחודשים קודמים בלוח השנה
+                  </Link>
+                )}
+              </section>
+            )}
+          </div>
 
-        <section
-          className="reveal"
-          style={{ "--reveal-delay": "800ms" } as React.CSSProperties}
-        >
-          <Link
-            href="/log"
-            className="group flex items-center justify-center gap-2 bg-primary text-primary-foreground rounded-3xl py-4 text-lg font-medium shadow-card transition-all duration-300 hover:shadow-lg hover:brightness-110 active:scale-[0.98]"
-          >
-            <Plus
-              className="size-5 transition-transform duration-300 group-hover:rotate-90"
-              strokeWidth={2.5}
-            />
-            תיעוד פעולה
-          </Link>
-        </section>
+          <aside className="space-y-10">
+            {upcoming.length > 0 && (
+              <section
+                className="reveal"
+                style={{ "--reveal-delay": "700ms" } as React.CSSProperties}
+              >
+                <SectionHeading title="בהמשך השנה" />
+                <div className="divide-y divide-border/70 border-y border-border/70">
+                  {upcoming.map((task) => (
+                    <div key={task.id} className="flex items-center gap-3 py-3.5">
+                      <ActionIcon
+                        action={task.action}
+                        className="size-4 text-muted-foreground shrink-0"
+                        strokeWidth={1.75}
+                      />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium">{task.action}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {task.treeName}
+                        </p>
+                      </div>
+                      <span className="text-xs text-muted-foreground whitespace-nowrap">
+                        {HEBREW_MONTHS[task.month - 1]}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            <section
+              className="reveal"
+              style={{ "--reveal-delay": "800ms" } as React.CSSProperties}
+            >
+              <Link
+                href="/log"
+                className="group flex items-center justify-center gap-2 border border-foreground/80 text-foreground rounded-full py-3.5 text-base transition-colors duration-300 hover:bg-foreground hover:text-background"
+              >
+                <Plus
+                  className="size-4 transition-transform duration-300 group-hover:rotate-90"
+                  strokeWidth={2}
+                />
+                תיעוד פעולה
+              </Link>
+            </section>
+          </aside>
+        </div>
       </div>
     </div>
   );
