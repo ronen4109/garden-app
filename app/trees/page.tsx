@@ -1,40 +1,30 @@
-import Link from "next/link";
-import Image from "next/image";
-import { getAllTrees } from "@/lib/tasks";
+import { getTreesWithStatus } from "@/lib/garden";
+import { TreeCard } from "@/components/tree-card";
 
 export const dynamic = "force-dynamic";
 
 export default async function TreesPage() {
-  const trees = await getAllTrees();
+  const trees = await getTreesWithStatus();
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold">העצים שלנו</h1>
+    <div className="px-4 pt-8 space-y-6">
+      <div className="reveal">
+        <h1 className="font-display text-4xl font-black">העצים שלנו</h1>
+        <p className="text-muted-foreground text-sm mt-1.5">
+          {trees.length} עצי פרי בחצר
+        </p>
+      </div>
       <div className="grid grid-cols-2 gap-3">
-        {trees.map((tree) => (
-          <Link
+        {trees.map((tree, i) => (
+          <div
             key={tree.id}
-            href={`/trees/${tree.slug}`}
-            className="block bg-white border border-stone-200 rounded-lg overflow-hidden hover:border-emerald-400 transition-colors"
+            className="reveal"
+            style={
+              { "--reveal-delay": `${120 + i * 80}ms` } as React.CSSProperties
+            }
           >
-            {tree.photoUrl && (
-              <div className="relative aspect-square bg-stone-100">
-                <Image
-                  src={tree.photoUrl}
-                  alt={tree.name}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 640px) 50vw, 200px"
-                />
-              </div>
-            )}
-            <div className="p-3">
-              <p className="font-semibold">{tree.name}</p>
-              {tree.species && (
-                <p className="text-xs text-stone-500 italic">{tree.species}</p>
-              )}
-            </div>
-          </Link>
+            <TreeCard tree={tree} />
+          </div>
         ))}
       </div>
     </div>

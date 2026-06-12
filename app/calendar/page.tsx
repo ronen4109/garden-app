@@ -1,6 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Check } from "lucide-react";
 import { getTasksForMonth, HEBREW_MONTHS } from "@/lib/tasks";
+import { getMonthSummaries } from "@/lib/garden";
+import { MonthGrid } from "@/components/month-grid";
+import { SectionHeading } from "@/components/section-heading";
+import { ActionIcon } from "@/components/action-icon";
 
 export const dynamic = "force-dynamic";
 
@@ -11,53 +16,53 @@ export default async function CalendarPage({
 }) {
   const { month: monthParam } = await searchParams;
   const now = new Date();
-  const selectedMonth = monthParam ? parseInt(monthParam, 10) : now.getMonth() + 1;
+  const currentMonth = now.getMonth() + 1;
+  const selectedMonth = monthParam
+    ? Math.min(12, Math.max(1, parseInt(monthParam, 10) || currentMonth))
+    : currentMonth;
 
-  const tasks = await getTasksForMonth(selectedMonth);
+  const [tasks, summaries] = await Promise.all([
+    getTasksForMonth(selectedMonth),
+    getMonthSummaries(),
+  ]);
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold">לוח שנה</h1>
+    <div className="px-4 pt-8 space-y-6">
+      <h1 className="reveal font-display text-4xl font-black">
+        לוח השנה של הגינה
+      </h1>
 
-      <div className="grid grid-cols-4 gap-2">
-        {HEBREW_MONTHS.map((m, idx) => {
-          const monthNum = idx + 1;
-          const isSelected = monthNum === selectedMonth;
-          const isCurrent = monthNum === now.getMonth() + 1;
-          return (
-            <Link
-              key={m}
-              href={`/calendar?month=${monthNum}`}
-              className={`text-center py-2 rounded-md text-sm font-medium border ${
-                isSelected
-                  ? "bg-emerald-600 text-white border-emerald-600"
-                  : isCurrent
-                    ? "bg-emerald-50 border-emerald-300 text-emerald-900"
-                    : "bg-white border-stone-200 hover:border-emerald-300"
-              }`}
-            >
-              {m}
-            </Link>
-          );
-        })}
+      <div
+        className="reveal"
+        style={{ "--reveal-delay": "120ms" } as React.CSSProperties}
+      >
+        <MonthGrid
+          summaries={summaries}
+          selected={selectedMonth}
+          current={currentMonth}
+        />
       </div>
 
-      <section>
-        <h2 className="text-lg font-semibold mb-3">
-          משימות ל{HEBREW_MONTHS[selectedMonth - 1]}
-          {selectedMonth === now.getMonth() + 1 && (
-            <span className="text-sm font-normal text-stone-500 mr-2">(החודש)</span>
-          )}
-        </h2>
+      <section
+        className="reveal"
+        style={{ "--reveal-delay": "240ms" } as React.CSSProperties}
+      >
+        <SectionHeading
+          title={`${HEBREW_MONTHS[selectedMonth - 1]}${
+            selectedMonth === currentMonth ? " · החודש" : ""
+          }`}
+        />
         {tasks.length === 0 ? (
-          <p className="text-stone-500 text-sm">אין משימות בחודש הזה.</p>
+          <p className="text-sm text-muted-foreground">
+            אין משימות מתוכננות בחודש הזה.
+          </p>
         ) : (
-          <div className="space-y-2">
+          <div className="bg-card rounded-2xl shadow-soft divide-y divide-border/60">
             {tasks.map((task) => (
               <div
                 key={task.id}
-                className={`bg-white border rounded-lg p-3 flex items-center gap-3 ${
-                  task.doneAt ? "border-stone-200 opacity-60" : "border-stone-200"
+                className={`flex items-center gap-3 p-3.5 ${
+                  task.doneAt ? "opacity-55" : ""
                 }`}
               >
                 {task.treePhoto && (
@@ -66,24 +71,33 @@ export default async function CalendarPage({
                     alt={task.treeName}
                     width={40}
                     height={40}
-                    className="w-10 h-10 rounded-md object-cover"
+                    className="size-10 rounded-xl object-cover shrink-0"
                   />
                 )}
                 <div className="flex-1 min-w-0">
-                  <p className="font-medium text-sm">
-                    {task.doneAt && "✓ "}
+                  <p className="font-medium text-sm flex items-center gap-1.5">
+                    {task.doneAt && (
+                      <Check
+                        className="size-3.5 text-leaf shrink-0"
+                        strokeWidth={3}
+                      />
+                    )}
                     {task.action}
                   </p>
                   <Link
                     href={`/trees/${task.treeSlug}`}
-                    className="text-xs text-emerald-700 hover:underline"
+                    className="text-xs text-primary hover:underline"
                   >
                     {task.treeName}
                   </Link>
                 </div>
-                {task.doneAt && (
-                  <span className="text-xs text-stone-500 whitespace-nowrap">
+                {task.doneAt ? (
+                  <span className="text-[11px] text-muted-foreground whitespace-nowrap">
                     {new Date(task.doneAt).toLocaleDateString("he-IL")}
+                  </span>
+                ) : (
+                  <span className="flex items-center justify-center size-8 rounded-lg bg-muted text-muted-foreground shrink-0">
+                    <ActionIcon action={task.action} className="size-4" />
                   </span>
                 )}
               </div>
